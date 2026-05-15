@@ -1,5 +1,4 @@
-from anki import version as anki_version
-from anki.utils import isMac, isWin
+from anki.utils import isMac, isWin, pointVersion
 
-ANKI_VERSION_TUPLE = tuple(int(i) for i in anki_version.split("."))
+ANKI_VERSION = pointVersion()
 PLATFORM = "win" if isWin else "mac" if isMac else "lin"

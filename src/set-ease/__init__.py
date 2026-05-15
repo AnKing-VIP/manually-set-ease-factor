@@ -10,7 +10,7 @@ from aqt.qt import *
 from aqt.reviewer import Reviewer
 
 from .compat import setup_compat_aliases
-from .consts import ANKI_VERSION_TUPLE
+from .consts import ANKI_VERSION
 from .gui.menu import setup_menu
 
 # not available in older Anki versions
@@ -26,7 +26,7 @@ act = None  # stores QAction so it doesn't get garbage collected
 
 
 def on_browser_context_menu(browser: Browser, menu: QMenu):
-    if ANKI_VERSION_TUPLE >= (2, 1, 45) and browser.table.is_notes_mode():
+    if ANKI_VERSION >= 45 and browser.table.is_notes_mode():
         return
 
     if not browser.selected_cards():
@@ -117,7 +117,7 @@ class EaseEditWindow(QDialog):
     def _on_save(self):
 
         msg = f"Set Ease of {len(self.cids)} card to {self.spin_box.value()}"
-        if ANKI_VERSION_TUPLE >= (2, 1, 45):
+        if ANKI_VERSION >= 45:
             undo_id = mw.col.add_custom_undo_entry(msg)
         else:
             mw.checkpoint(msg)
@@ -128,7 +128,7 @@ class EaseEditWindow(QDialog):
                 self.spin_box.value() * 10
             )  # * 10 because anki saves the factor with an extra zero
 
-            if ANKI_VERSION_TUPLE >= (2, 1, 45):
+            if ANKI_VERSION >= 45:
                 mw.col.update_card(card)
                 mw.col.merge_undo_entries(undo_id)
             else:
@@ -137,7 +137,7 @@ class EaseEditWindow(QDialog):
         self.close()
 
         mw.col.reset()
-        if ANKI_VERSION_TUPLE >= (2, 1, 45):
+        if ANKI_VERSION >= 45:
             mw.update_undo_actions()
         else:
             mw.reset()
